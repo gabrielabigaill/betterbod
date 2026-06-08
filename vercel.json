@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "name": "betterbody",
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "routes": [
+    { "src": "/", "dest": "/betterbody-homepage.html" },
+    { "src": "/programs", "dest": "/betterbody-programs.html" },
+    { "src": "/stride-club", "dest": "/betterbody-stride-club.html" },
+    { "src": "/membership", "dest": "/betterbody-membership.html" },
+    { "src": "/about", "dest": "/betterbody-about.html" }
+  ]
+}

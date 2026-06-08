@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Judith — BetterBody Founder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FFF8F6; --white: #FFFFFF; --charcoal: #1A1A1A;
+      --coral: #FF6357; --coral-dark: #E04A3F; --coral-light: #FFF0EE;
+      --teal: #00B4A0; --teal-dark: #009688; --teal-light: #E0F7F5;
+      --amber: #F5A623; --amber-dark: #D48F1A; --amber-light: #FEF3DC;
+      --muted: #6B7280; --border: #F0EAE8; --nav-h: 72px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--charcoal); overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; background: rgba(255,255,255,.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--charcoal); text-decoration: none; }
+    .nav-logo span { color: var(--coral); }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 500; letter-spacing: .5px; text-transform: uppercase; color: var(--charcoal); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--coral); }
+    .nav-actions { display: flex; align-items: center; gap: 16px; }
+    .btn-ghost { font-size: 13px; font-weight: 500; color: var(--charcoal); text-decoration: none; }
+    .btn-join { background: var(--coral); color: var(--white); padding: 11px 24px; border-radius: 4px; font-size: 13px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; text-decoration: none; transition: background .2s; }
+    .btn-join:hover { background: var(--coral-dark); }
+
+    /* HERO */
+    .about-hero { margin-top: var(--nav-h); background: var(--cream); padding: 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; border-bottom: 1px solid var(--border); }
+    .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .hero-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 60px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+    .hero-title em { color: var(--coral); font-style: normal; }
+    .hero-body { font-size: 17px; line-height: 1.8; color: var(--muted); margin-bottom: 32px; }
+    .hero-body strong { color: var(--charcoal); font-weight: 600; }
+    .hero-creds { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+    .cred-item { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+    .cred-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--teal-light); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .cred-text { color: var(--charcoal); font-weight: 500; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--coral); color: var(--white); padding: 14px 32px; border-radius: 4px; font-size: 14px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; text-decoration: none; transition: all .2s; }
+    .btn-primary:hover { background: var(--coral-dark); transform: translateY(-2px); }
+    .hero-photo-wrap { position: relative; }
+    .hero-photo { width: 100%; border-radius: 24px; aspect-ratio: 3/4; object-fit: cover; background: var(--border); display: block; overflow: hidden; }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-badge { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 16px 24px; box-shadow: 0 8px 32px rgba(0,0,0,.1); white-space: nowrap; text-align: center; }
+    .badge-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--coral); }
+    .badge-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+    /* STORY */
+    .story-section { padding: 120px 80px 100px; }
+    .story-inner { max-width: 800px; margin: 0 auto; }
+    .section-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 4vw, 46px); font-weight: 700; line-height: 1.2; margin-bottom: 36px; }
+    .section-title em { color: var(--coral); font-style: normal; }
+    .story-text { font-size: 17px; line-height: 1.9; color: #374151; margin-bottom: 24px; }
+    .story-text strong { color: var(--charcoal); }
+    .story-quote { border-left: 4px solid var(--coral); padding: 24px 32px; margin: 40px 0; background: var(--coral-light); border-radius: 0 12px 12px 0; }
+    .story-quote p { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; line-height: 1.5; color: var(--charcoal); font-style: italic; }
+    .story-quote cite { display: block; margin-top: 12px; font-size: 13px; color: var(--muted); font-style: normal; font-weight: 600; }
+
+    /* VALUES */
+    .values-section { padding: 100px 80px; background: var(--cream); }
+    .values-inner { max-width: 1200px; margin: 0 auto; }
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 60px; }
+    .value-card { background: var(--white); border-radius: 20px; padding: 36px; border: 1.5px solid var(--border); }
+    .value-icon { font-size: 40px; margin-bottom: 20px; }
+    .value-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; color: var(--coral); opacity: .15; position: absolute; top: -8px; right: 20px; }
+    .value-card-inner { position: relative; }
+    .value-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 12px; }
+    .value-card p { font-size: 14px; line-height: 1.7; color: var(--muted); }
+
+    /* MISSION BANNER */
+    .mission-section { padding: 100px 80px; background: var(--coral); text-align: center; position: relative; overflow: hidden; }
+    .mission-section::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,.08) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(0,0,0,.06) 0%, transparent 50%); }
+    .mission-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 60px); font-weight: 900; color: var(--white); line-height: 1.15; margin-bottom: 24px; position: relative; }
+    .mission-section h2 em { color: var(--amber); font-style: normal; }
+    .mission-section p { font-size: 18px; color: rgba(255,255,255,.8); max-width: 600px; margin: 0 auto 40px; line-height: 1.7; position: relative; }
+    .btn-white { display: inline-block; background: var(--white); color: var(--coral); padding: 16px 40px; border-radius: 4px; font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; transition: all .2s; position: relative; }
+    .btn-white:hover { background: var(--amber); color: var(--white); }
+
+    /* STATS */
+    .stats-section { padding: 80px; background: var(--charcoal); }
+    .stats-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; text-align: center; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; color: var(--amber); }
+    .stat-label { font-size: 14px; color: rgba(255,255,255,.6); margin-top: 8px; }
+
+    /* APPROACH */
+    .approach-section { padding: 100px 80px; background: var(--white); }
+    .approach-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .approach-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .approach-img { border-radius: 16px; overflow: hidden; }
+    .approach-img img { width: 100%; height: 200px; object-fit: cover; }
+    .approach-img:first-child { grid-row: span 2; }
+    .approach-img:first-child img { height: 100%; }
+    .approach-content { }
+    .approach-items { display: flex; flex-direction: column; gap: 28px; margin-top: 36px; }
+    .approach-item { display: flex; gap: 16px; }
+    .approach-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--amber-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .approach-item h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .approach-item p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* SOCIAL PROOF */
+    .social-section { padding: 80px; background: var(--cream); }
+    .social-inner { max-width: 1200px; margin: 0 auto; text-align: center; }
+    .social-section h2 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .social-section p { color: var(--muted); margin-bottom: 40px; }
+    .social-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .social-card { background: var(--white); border-radius: 16px; padding: 28px; border: 1.5px solid var(--border); text-align: left; }
+    .social-stars { color: var(--amber); font-size: 14px; margin-bottom: 14px; }
+    .social-quote { font-size: 15px; line-height: 1.7; color: var(--charcoal); margin-bottom: 20px; font-style: italic; }
+    .social-author { display: flex; align-items: center; gap: 12px; }
+    .social-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--coral-light); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .social-name { font-size: 14px; font-weight: 700; }
+    .social-handle { font-size: 12px; color: var(--muted); }
+
+    /* CTA */
+    .cta-section { padding: 100px 80px; text-align: center; }
+    .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 700; margin-bottom: 16px; }
+    .cta-section h2 em { color: var(--coral); font-style: normal; }
+    .cta-section p { color: var(--muted); font-size: 17px; margin-bottom: 36px; }
+
+    /* FOOTER */
+    footer { background: var(--charcoal); color: rgba(255,255,255,.7); padding: 40px 80px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); text-decoration: none; }
+    .footer-logo span { color: var(--coral); }
+    .footer-links { display: flex; gap: 28px; }
+    .footer-links a { color: rgba(255,255,255,.5); font-size: 13px; text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,.3); }
+
+    @media (max-width: 960px) {
+      nav { padding: 0 24px; } .nav-links { display: none; }
+      .about-hero, .story-section, .values-section, .mission-section, .stats-section, .approach-section, .social-section, .cta-section, footer { padding-left: 24px; padding-right: 24px; }
+      .hero-inner, .approach-inner { grid-template-columns: 1fr; }
+      .values-grid, .social-grid { grid-template-columns: 1fr 1fr; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+      .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="betterbody-homepage.html" class="nav-logo">Better<span>Body</span></a>
+  <ul class="nav-links">
+    <li><a href="betterbody-membership.html">Memberships</a></li>
+    <li><a href="betterbody-programs.html">Programs</a></li>
+    <li><a href="betterbody-stride-club.html">Stride Club</a></li>
+    <li><a href="#">Nutrition</a></li>
+    <li><a href="#">Merchandise</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#" class="btn-ghost">Log In</a>
+    <a href="betterbody-membership.html" class="btn-join">Join Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">Meet the Founder</div>
+      <h1 class="hero-title">Hi, I'm <em>Judith.</em></h1>
+      <p class="hero-body">
+        I built BetterBody because I believed fitness should feel <strong>accessible, joyful, and sustainable</strong> — not punishing. After years of struggling with programs that didn't account for real life, I created the platform I always wished existed.
+      </p>
+      <div class="hero-creds">
+        <div class="cred-item">
+          <div class="cred-icon">🎓</div>
+          <span class="cred-text">Certified Personal Trainer (CPT)</span>
+        </div>
+        <div class="cred-item">
+          <div class="cred-icon">🥗</div>
+          <span class="cred-text">Nutrition & Wellness Coach</span>
+        </div>
+        <div class="cred-item">
+          <div class="cred-icon">🏆</div>
+          <span class="cred-text">10,000+ members transformed</span>
+        </div>
+        <div class="cred-item">
+          <div class="cred-icon">📍</div>
+          <span class="cred-text">Founder of BetterBody</span>
+        </div>
+      </div>
+      <a href="betterbody-membership.html" class="btn-primary">Start Your Journey →</a>
+    </div>
+    <div class="hero-photo-wrap">
+      <div class="hero-photo">
+        <img src="https://images.unsplash.com/photo-1521310192545-4ac7951413f0?w=600&q=80" alt="Judith — Founder of BetterBody" />
+      </div>
+      <div class="photo-badge">
+        <div class="badge-num">10,000+</div>
+        <div class="badge-label">Members Transformed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story-section">
+  <div class="story-inner">
+    <div class="section-tag">My Story</div>
+    <h2 class="section-title">Where It All <em>Started</em></h2>
+    <p class="story-text">
+      Like most people, I spent years jumping between programs that promised results but never lasted. The workouts were too intense, the meal plans too restrictive, and there was no community to keep me accountable when life got hard. I knew I wasn't alone.
+    </p>
+    <p class="story-text">
+      After becoming a certified personal trainer and studying nutrition and wellness, I started coaching clients one-on-one. I saw the same pattern everywhere: people didn't lack discipline — they lacked a <strong>system that actually fit their life</strong>.
+    </p>
+
+    <div class="story-quote">
+      <p>"Transformation isn't about being perfect. It's about showing up — consistently, kindly, and with the right support around you."</p>
+      <cite>— Judith, Founder of BetterBody</cite>
+    </div>
+
+    <p class="story-text">
+      BetterBody was born from that insight. I wanted to build a platform where workouts are structured but flexible, nutrition is science-backed but never restrictive, and community isn't just a buzzword — it's the engine. The Stride Club came from my own walking habit: the simplest, most underrated form of movement that changed everything for me and my clients.
+    </p>
+    <p class="story-text">
+      Today, BetterBody is home to thousands of members who are moving better, eating better, and living better — not because they're grinding harder, but because they finally have a system built for real people.
+    </p>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="stats-inner">
+    <div>
+      <div class="stat-num">10K+</div>
+      <div class="stat-label">Members worldwide</div>
+    </div>
+    <div>
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Programs & challenges</div>
+    </div>
+    <div>
+      <div class="stat-num">1,200+</div>
+      <div class="stat-label">Dietitian-created recipes</div>
+    </div>
+    <div>
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Average member rating</div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-section">
+  <div class="values-inner">
+    <div class="section-tag">What We Stand For</div>
+    <h2 class="section-title">The BetterBody <em>Philosophy</em></h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-card-inner">
+          <div class="value-icon">🌱</div>
+          <h3>Sustainable Over Extreme</h3>
+          <p>We reject crash diets and punishing workouts. Every program at BetterBody is designed to build habits you can maintain for life — not just for 6 weeks.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-inner">
+          <div class="value-icon">🤝</div>
+          <h3>Community First</h3>
+          <p>The science is clear: people who move and eat well together, stay consistent longer. Community isn't a feature — it's foundational to how BetterBody works.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-inner">
+          <div class="value-icon">🧪</div>
+          <h3>Evidence-Based Everything</h3>
+          <p>Every program, recipe, and piece of nutrition guidance is grounded in research. Our dietitian collaborates on all nutritional content — no pseudoscience, ever.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-inner">
+          <div class="value-icon">💛</div>
+          <h3>Kindness Toward Yourself</h3>
+          <p>Transformation starts with how you speak to yourself. We build a culture of encouragement, not guilt. Progress over perfection — always.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-inner">
+          <div class="value-icon">🔓</div>
+          <h3>Fitness for Every Body</h3>
+          <p>Our programs span all levels, abilities, and schedules. Whether you have 25 minutes at home or an hour at the gym — there's a path for you here.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-inner">
+          <div class="value-icon">🚶‍♀️</div>
+          <h3>Movement in All Forms</h3>
+          <p>From heavy lifting to daily walking — all movement counts. The Stride Club exists because walking is one of the most powerful things you can do for your body and mind.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="approach-section">
+  <div class="approach-inner">
+    <div class="approach-visual">
+      <div class="approach-img"><img src="https://images.unsplash.com/photo-1518310952931-b1de897abd40?w=600&q=80" alt="Judith training" /></div>
+      <div class="approach-img"><img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&q=80" alt="Nutrition" /></div>
+      <div class="approach-img"><img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=600&q=80" alt="Walking" /></div>
+    </div>
+    <div class="approach-content">
+      <div class="section-tag">The Method</div>
+      <h2 class="section-title">Move. <em>Nourish.</em> Thrive.</h2>
+      <p style="color:var(--muted); font-size:15px; line-height:1.7; margin-bottom:8px;">BetterBody is built around three interconnected pillars. When they work together, results become inevitable.</p>
+      <div class="approach-items">
+        <div class="approach-item">
+          <div class="approach-icon">💪</div>
+          <div>
+            <h4>Move — Structured, Progressive Training</h4>
+            <p>Gym programs, home workouts, challenges, and The Stride Club. Clear structure so you always know exactly what to do next.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="approach-icon">🥗</div>
+          <div>
+            <h4>Nourish — Dietitian-Guided Nutrition</h4>
+            <p>1,200+ recipes and meal planning tools created with a certified dietitian. Real food, real life, real results. No restriction, no guilt.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="approach-icon">✨</div>
+          <div>
+            <h4>Thrive — Habits, Mindset & Community</h4>
+            <p>Daily tracking, The Stride Club leaderboard, monthly workbooks, and a community that celebrates every win — big and small.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION BANNER -->
+<section class="mission-section">
+  <h2>Built for People Who Are <em>Done Starting Over</em></h2>
+  <p>BetterBody exists for the person who's ready to build something that lasts — not another 30-day fix, but a real relationship with movement and food.</p>
+  <a href="betterbody-membership.html" class="btn-white">Join BetterBody Today →</a>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="social-section">
+  <div class="social-inner">
+    <h2>What Members Say About <em style="color:var(--coral)">Judith</em></h2>
+    <p>Real words from real BetterBody members.</p>
+    <div class="social-grid">
+      <div class="social-card">
+        <div class="social-stars">★★★★★</div>
+        <p class="social-quote">"Judith's approach is unlike anything I've tried before. She actually cares — it comes through in every program, every recipe, every Stride Club update. I've lost 22lbs and gained so much confidence."</p>
+        <div class="social-author">
+          <div class="social-avatar">👩🏾</div>
+          <div><div class="social-name">Aisha K.</div><div class="social-handle">Member since 2025</div></div>
+        </div>
+      </div>
+      <div class="social-card">
+        <div class="social-stars">★★★★★</div>
+        <p class="social-quote">"I've been in fitness spaces that made me feel bad about myself. BetterBody is the opposite. Judith has built something genuinely kind and effective. The Stride Club alone keeps me accountable every week."</p>
+        <div class="social-author">
+          <div class="social-avatar">👩🏽</div>
+          <div><div class="social-name">Shanel T.</div><div class="social-handle">Member since 2025</div></div>
+        </div>
+      </div>
+      <div class="social-card">
+        <div class="social-stars">★★★★★</div>
+        <p class="social-quote">"I started just for the walk club. Three months later I'm doing full gym programs and cooking from the nutrition library every week. This platform changes everything when you commit to it."</p>
+        <div class="social-author">
+          <div class="social-avatar">👩🏻</div>
+          <div><div class="social-name">Monique L.</div><div class="social-handle">Member since 2024</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to <em>Move Better?</em></h2>
+  <p>Join thousands of BetterBody members building sustainable health — one day at a time.</p>
+  <a href="betterbody-membership.html" class="btn-primary">Start Your Journey →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="betterbody-homepage.html" class="footer-logo">Better<span>Body</span></a>
+    <div class="footer-links">
+      <a href="betterbody-programs.html">Programs</a>
+      <a href="betterbody-stride-club.html">Stride Club</a>
+      <a href="betterbody-membership.html">Memberships</a>
+      <a href="betterbody-about.html">About</a>
+    </div>
+    <span class="footer-copy">© 2026 BetterBody</span>
+  </div>
+</footer>
+
+</body>
+</html>

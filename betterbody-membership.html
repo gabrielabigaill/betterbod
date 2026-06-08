@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memberships — BetterBody</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FFF8F6; --white: #FFFFFF; --charcoal: #1A1A1A;
+      --coral: #FF6357; --coral-dark: #E04A3F; --coral-light: #FFF0EE;
+      --teal: #00B4A0; --teal-dark: #009688; --teal-light: #E0F7F5;
+      --amber: #F5A623; --amber-dark: #D48F1A; --amber-light: #FEF3DC;
+      --muted: #6B7280; --border: #F0EAE8; --nav-h: 72px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--charcoal); overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; background: rgba(255,255,255,.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--charcoal); text-decoration: none; }
+    .nav-logo span { color: var(--coral); }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 500; letter-spacing: .5px; text-transform: uppercase; color: var(--charcoal); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--coral); }
+    .nav-actions { display: flex; align-items: center; gap: 16px; }
+    .btn-ghost { font-size: 13px; font-weight: 500; color: var(--charcoal); text-decoration: none; }
+    .btn-join { background: var(--coral); color: var(--white); padding: 11px 24px; border-radius: 4px; font-size: 13px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; text-decoration: none; }
+
+    /* HERO */
+    .page-hero { margin-top: var(--nav-h); background: var(--cream); padding: 80px 80px 60px; text-align: center; border-bottom: 1px solid var(--border); }
+    .page-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; }
+    .page-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 64px); font-weight: 900; line-height: 1.1; margin-bottom: 16px; }
+    .page-title em { color: var(--coral); font-style: normal; }
+    .page-sub { font-size: 17px; line-height: 1.7; color: var(--muted); max-width: 520px; margin: 0 auto; }
+
+    /* TOGGLE */
+    .billing-toggle { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 40px 0 0; }
+    .toggle-label { font-size: 14px; font-weight: 600; color: var(--muted); }
+    .toggle-label.active { color: var(--charcoal); }
+    .toggle-switch { width: 52px; height: 28px; background: var(--teal); border-radius: 100px; position: relative; cursor: pointer; border: none; transition: background .3s; }
+    .toggle-knob { width: 22px; height: 22px; background: var(--white); border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: transform .3s; }
+    .toggle-switch.annual .toggle-knob { transform: translateX(24px); }
+    .save-badge { background: var(--amber); color: var(--white); padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: .5px; }
+
+    /* PRICING GRID */
+    .pricing-section { padding: 60px 80px 100px; }
+    .pricing-inner { max-width: 1100px; margin: 0 auto; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .pricing-card { border: 2px solid var(--border); border-radius: 24px; padding: 40px 32px; position: relative; transition: all .3s; }
+    .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,.08); }
+    .pricing-card.featured { border-color: var(--coral); background: var(--coral); color: var(--white); transform: scale(1.04); box-shadow: 0 24px 60px rgba(255,99,87,.2); }
+    .pricing-card.featured:hover { transform: scale(1.04) translateY(-4px); }
+    .pricing-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--amber); color: var(--white); padding: 4px 18px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+    .plan-name { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .pricing-card.featured .plan-name { color: rgba(255,255,255,.7); }
+    .plan-amount { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+    .plan-period { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+    .pricing-card.featured .plan-period { color: rgba(255,255,255,.65); }
+    .plan-desc { font-size: 14px; line-height: 1.6; color: var(--muted); margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+    .pricing-card.featured .plan-desc { color: rgba(255,255,255,.75); border-color: rgba(255,255,255,.2); }
+    .perks-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; }
+    .perks-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.4; }
+    .perks-list li::before { content: '✓'; font-weight: 800; color: var(--teal); flex-shrink: 0; margin-top: 1px; }
+    .pricing-card.featured .perks-list li { color: rgba(255,255,255,.85); }
+    .pricing-card.featured .perks-list li::before { color: var(--amber); }
+    .perks-list li.muted-item { opacity: .45; }
+    .perks-list li.muted-item::before { content: '—'; color: currentColor; }
+    .btn-plan { width: 100%; display: block; text-align: center; padding: 15px; border-radius: 10px; font-size: 14px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; text-decoration: none; transition: all .2s; border: none; cursor: pointer; }
+    .btn-plan.dark { background: var(--charcoal); color: var(--white); }
+    .btn-plan.dark:hover { background: #333; }
+    .btn-plan.light { background: var(--white); color: var(--coral); }
+    .btn-plan.light:hover { background: var(--amber); color: var(--white); }
+    .btn-plan.teal { background: var(--teal); color: var(--white); }
+    .btn-plan.teal:hover { background: var(--teal-dark); }
+    .plan-note { text-align: center; font-size: 12px; color: var(--muted); margin-top: 12px; }
+    .pricing-card.featured .plan-note { color: rgba(255,255,255,.5); }
+
+    /* COMPARISON TABLE */
+    .compare-section { padding: 80px 80px; background: var(--cream); }
+    .compare-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3.5vw, 44px); font-weight: 700; margin-bottom: 48px; }
+    .section-title em { color: var(--coral); font-style: normal; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { padding: 16px 20px; text-align: center; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    thead th:first-child { text-align: left; }
+    thead th.featured-col { background: var(--coral); color: var(--white); border-radius: 12px 12px 0 0; }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border: none; }
+    tbody td { padding: 16px 20px; font-size: 14px; text-align: center; }
+    tbody td:first-child { text-align: left; font-weight: 500; color: var(--charcoal); }
+    .check { color: var(--teal); font-weight: 700; font-size: 16px; }
+    .cross { color: var(--border); font-size: 16px; }
+    .featured-col-data { background: var(--coral-light); }
+
+    /* FAQ */
+    .faq-section { padding: 80px 80px; background: var(--white); }
+    .faq-inner { max-width: 760px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; cursor: pointer; font-size: 16px; font-weight: 600; gap: 16px; }
+    .faq-arrow { font-size: 20px; color: var(--coral); transition: transform .3s; flex-shrink: 0; }
+    .faq-item.open .faq-arrow { transform: rotate(45deg); }
+    .faq-a { display: none; padding-bottom: 24px; font-size: 14px; line-height: 1.8; color: var(--muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    /* TRUST */
+    .trust-section { background: var(--charcoal); padding: 60px 80px; }
+    .trust-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: center; gap: 80px; flex-wrap: wrap; }
+    .trust-item { text-align: center; color: rgba(255,255,255,.7); }
+    .trust-icon { font-size: 32px; margin-bottom: 12px; }
+    .trust-label { font-size: 14px; font-weight: 500; }
+    .trust-sub { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 4px; }
+
+    /* FOOTER */
+    footer { background: var(--charcoal); color: rgba(255,255,255,.7); padding: 40px 80px; border-top: 1px solid rgba(255,255,255,.06); }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); text-decoration: none; }
+    .footer-logo span { color: var(--coral); }
+    .footer-links { display: flex; gap: 28px; }
+    .footer-links a { color: rgba(255,255,255,.5); font-size: 13px; text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,.3); }
+
+    @media (max-width: 960px) {
+      nav { padding: 0 24px; } .nav-links { display: none; }
+      .page-hero, .pricing-section, .compare-section, .faq-section, .trust-section, footer { padding-left: 24px; padding-right: 24px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-card.featured { transform: none; }
+      .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
+      .trust-inner { gap: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="betterbody-homepage.html" class="nav-logo">Better<span>Body</span></a>
+  <ul class="nav-links">
+    <li><a href="betterbody-membership.html" class="active">Memberships</a></li>
+    <li><a href="betterbody-programs.html">Programs</a></li>
+    <li><a href="betterbody-stride-club.html">Stride Club</a></li>
+    <li><a href="#">Nutrition</a></li>
+    <li><a href="#">Merchandise</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#" class="btn-ghost">Log In</a>
+    <a href="#pricing" class="btn-join">Join Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-tag">Choose Your Plan</div>
+  <h1 class="page-title">Start Your <em>BetterBody</em> Journey</h1>
+  <p class="page-sub">Access every program, challenge, and nutrition guide. Everything built to work together — from $19.99/month.</p>
+  <div class="billing-toggle">
+    <span class="toggle-label active" id="monthly-label">Monthly</span>
+    <button class="toggle-switch annual" id="billing-toggle" onclick="toggleBilling()">
+      <div class="toggle-knob" id="toggle-knob"></div>
+    </button>
+    <span class="toggle-label" id="annual-label">Annual</span>
+    <span class="save-badge">Save 17%</span>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-grid">
+
+      <!-- Monthly -->
+      <div class="pricing-card">
+        <div class="plan-name">Monthly</div>
+        <div class="plan-amount" id="monthly-price">$19.99</div>
+        <div class="plan-period" id="monthly-cadence">per month · cancel anytime</div>
+        <p class="plan-desc">Full platform access with the flexibility to cancel whenever you want. Perfect for trying BetterBody first.</p>
+        <ul class="perks-list">
+          <li>All workout programs & challenges</li>
+          <li>Full nutrition library (1,200+ recipes)</li>
+          <li>Progress tracking dashboard</li>
+          <li>New content added monthly</li>
+          <li>Member community access</li>
+          <li class="muted-item">Stride Club (add-on $5/mo)</li>
+          <li class="muted-item">Priority support</li>
+        </ul>
+        <button class="btn-plan dark" onclick="window.location='#checkout'">Get Monthly Plan</button>
+        <div class="plan-note">No contract. Cancel anytime.</div>
+      </div>
+
+      <!-- Annual — FEATURED -->
+      <div class="pricing-card featured">
+        <div class="pricing-badge">🔥 Best Value</div>
+        <div class="plan-name">Annual</div>
+        <div class="plan-amount" id="annual-price">$199</div>
+        <div class="plan-period">per year · 2 months free</div>
+        <p class="plan-desc">The best way to commit to your transformation. Lock in the lowest rate and get 2 months completely free.</p>
+        <ul class="perks-list">
+          <li>Everything in Monthly</li>
+          <li>Stride Club included free</li>
+          <li>Priority member support</li>
+          <li>Early access to new programs</li>
+          <li>Exclusive annual member challenges</li>
+          <li>Downloadable program guides</li>
+          <li>1 free nutrition coaching session</li>
+        </ul>
+        <button class="btn-plan light" onclick="window.location='#checkout'">Get Annual Plan</button>
+        <div class="plan-note">Best value · Stride Club included</div>
+      </div>
+
+      <!-- Stride Club Only -->
+      <div class="pricing-card">
+        <div class="plan-name">Stride Club</div>
+        <div class="plan-amount">$5</div>
+        <div class="plan-period">per month · cancel anytime</div>
+        <p class="plan-desc">Just the Walk Club — for members who want community accountability, step tracking, and monthly workbooks.</p>
+        <ul class="perks-list">
+          <li>Real-time step counter</li>
+          <li>Live weekly leaderboard</li>
+          <li>Monthly guided workbook</li>
+          <li>Personal progress dashboard</li>
+          <li>Monthly step challenges</li>
+          <li class="muted-item">Workout programs</li>
+          <li class="muted-item">Nutrition library</li>
+        </ul>
+        <button class="btn-plan teal" onclick="window.location='betterbody-stride-club.html'">Join Stride Club</button>
+        <div class="plan-note">Add to any membership for free on Annual.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="compare-section">
+  <div class="compare-inner">
+    <div class="section-tag">Compare Plans</div>
+    <h2 class="section-title">What's Included in <em>Each Plan</em></h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Monthly</th>
+          <th class="featured-col">Annual ⭐</th>
+          <th>Stride Club</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>All workout programs</td><td><span class="check">✓</span></td><td class="featured-col-data"><span class="check">✓</span></td><td><span class="cross">—</span></td></tr>
+        <tr><td>Challenges access</td><td><span class="check">✓</span></td><td class="featured-col-data"><span class="check">✓</span></td><td><span class="cross">—</span></td></tr>
+        <tr><td>Nutrition library (1,200+ recipes)</td><td><span class="check">✓</span></td><td class="featured-col-data"><span class="check">✓</span></td><td><span class="cross">—</span></td></tr>
+        <tr><td>Progress tracking</td><td><span class="check">✓</span></td><td class="featured-col-data"><span class="check">✓</span></td><td><span class="cross">—</span></td></tr>
+        <tr><td>Stride Club step counter</td><td>Add-on $5/mo</td><td class="featured-col-data"><span class="check">✓ Included</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Live leaderboard</td><td>Add-on $5/mo</td><td class="featured-col-data"><span class="check">✓ Included</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Monthly workbook</td><td>Add-on $5/mo</td><td class="featured-col-data"><span class="check">✓ Included</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Early access to new programs</td><td><span class="cross">—</span></td><td class="featured-col-data"><span class="check">✓</span></td><td><span class="cross">—</span></td></tr>
+        <tr><td>Priority support</td><td><span class="cross">—</span></td><td class="featured-col-data"><span class="check">✓</span></td><td><span class="cross">—</span></td></tr>
+        <tr><td>1 nutrition coaching session</td><td><span class="cross">—</span></td><td class="featured-col-data"><span class="check">✓</span></td><td><span class="cross">—</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="faq-inner">
+    <div class="section-tag" style="text-align:center">Common Questions</div>
+    <h2 class="section-title" style="text-align:center; margin-bottom:48px;">Frequently <em>Asked</em></h2>
+
+    <div class="faq-item open">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Can I cancel anytime? <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">Yes — cancel anytime from your account dashboard with no questions asked. You'll retain access until the end of your billing period.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Is there a free trial? <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">The Stride Club comes with a 30-day free trial. Full memberships (Monthly and Annual) don't have a trial period, but you can cancel within 7 days for a full refund if BetterBody isn't the right fit.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        What's the difference between Monthly and Annual? <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">Both give you full access to all programs, challenges, and nutrition content. Annual saves you 17% (equivalent to 2 free months), includes the Stride Club at no extra cost, and unlocks early access to new programs and priority support.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Can I switch plans later? <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">Absolutely. You can upgrade from Monthly to Annual at any time from your account settings and we'll prorate the difference. Downgrading takes effect at your next billing cycle.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        How does the Stride Club step tracker work? <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">When you're about to walk, tap "Start Walk" in your BetterBody dashboard. Your steps are counted in real-time. Tap "Stop Walk" when done — your steps are saved to your profile and added to the weekly leaderboard automatically.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        What payment methods are accepted? <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">We accept all major credit and debit cards (Visa, Mastercard, Amex), as well as Apple Pay and Google Pay. Payments are processed securely via Stripe.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust-section">
+  <div class="trust-inner">
+    <div class="trust-item"><div class="trust-icon">🔒</div><div class="trust-label">Secure Payments</div><div class="trust-sub">Powered by Stripe</div></div>
+    <div class="trust-item"><div class="trust-icon">↩️</div><div class="trust-label">7-Day Refund</div><div class="trust-sub">No questions asked</div></div>
+    <div class="trust-item"><div class="trust-icon">⭐</div><div class="trust-label">4.9 Star Rating</div><div class="trust-sub">1,000+ reviews</div></div>
+    <div class="trust-item"><div class="trust-icon">🚫</div><div class="trust-label">No Hidden Fees</div><div class="trust-sub">What you see is what you pay</div></div>
+    <div class="trust-item"><div class="trust-icon">❌</div><div class="trust-label">Cancel Anytime</div><div class="trust-sub">No contracts, ever</div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="betterbody-homepage.html" class="footer-logo">Better<span>Body</span></a>
+    <div class="footer-links">
+      <a href="betterbody-programs.html">Programs</a>
+      <a href="betterbody-stride-club.html">Stride Club</a>
+      <a href="betterbody-membership.html">Memberships</a>
+      <a href="betterbody-about.html">About</a>
+    </div>
+    <span class="footer-copy">© 2026 BetterBody</span>
+  </div>
+</footer>
+
+<script>
+  let isAnnual = true;
+
+  function toggleBilling() {
+    isAnnual = !isAnnual;
+    const toggle = document.getElementById('billing-toggle');
+    const knob = document.getElementById('toggle-knob');
+    const mLabel = document.getElementById('monthly-label');
+    const aLabel = document.getElementById('annual-label');
+    if (isAnnual) {
+      toggle.classList.add('annual');
+      knob.style.transform = 'translateX(24px)';
+      mLabel.classList.remove('active');
+      aLabel.classList.add('active');
+    } else {
+      toggle.classList.remove('annual');
+      knob.style.transform = '';
+      mLabel.classList.add('active');
+      aLabel.classList.remove('active');
+    }
+  }
+
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>

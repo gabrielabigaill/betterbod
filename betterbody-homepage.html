@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BetterBody — Move. Nourish. Thrive.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #FFF8F6;
+      --white: #FFFFFF;
+      --charcoal: #1A1A1A;
+      --coral: #FF6357;
+      --coral-dark: #E04A3F;
+      --coral-light: #FFF0EE;
+      --teal: #00B4A0;
+      --teal-dark: #009688;
+      --teal-light: #E0F7F5;
+      --amber: #F5A623;
+      --amber-dark: #D48F1A;
+      --amber-light: #FEF3DC;
+      --muted: #6B7280;
+      --border: #F0EAE8;
+      --nav-h: 72px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--charcoal); overflow-x: hidden; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: var(--nav-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,.08); }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; font-weight: 700;
+      color: var(--charcoal); letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--coral); }
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; letter-spacing: .5px;
+      text-transform: uppercase; color: var(--charcoal);
+      text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--forest); }
+    .nav-actions { display: flex; align-items: center; gap: 16px; }
+    .btn-ghost {
+      font-size: 13px; font-weight: 500; letter-spacing: .5px; text-transform: uppercase;
+      color: var(--charcoal); text-decoration: none; transition: color .2s;
+    }
+    .btn-ghost:hover { color: var(--forest); }
+    .btn-join {
+      background: var(--coral); color: var(--white);
+      padding: 11px 24px; border-radius: 4px;
+      font-size: 13px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase;
+      text-decoration: none; transition: background .2s, transform .15s;
+    }
+    .btn-join:hover { background: var(--coral-dark); transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    .hero {
+      margin-top: var(--nav-h);
+      height: calc(100vh - var(--nav-h));
+      min-height: 560px;
+      position: relative;
+      background: var(--coral);
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #C93D33 0%, #FF6357 45%, #FF8C7A 100%);
+    }
+    .hero-pattern {
+      position: absolute; inset: 0; opacity: .04;
+      background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 640px; padding: 0 80px;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245,166,35,.2); border: 1px solid rgba(245,166,35,.45);
+      color: var(--amber); padding: 6px 14px; border-radius: 100px;
+      font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-tag::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(44px, 6vw, 80px);
+      font-weight: 900; line-height: 1.05;
+      color: var(--white); margin-bottom: 24px;
+    }
+    .hero h1 em { color: var(--gold); font-style: normal; }
+    .hero p {
+      font-size: 18px; line-height: 1.65;
+      color: rgba(255,255,255,.7); margin-bottom: 40px;
+      max-width: 480px;
+    }
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--amber); color: var(--white);
+      padding: 16px 36px; border-radius: 4px;
+      font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      text-decoration: none; transition: all .2s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: var(--amber-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,166,35,.35); }
+    .btn-secondary {
+      border: 1.5px solid rgba(255,255,255,.35); color: var(--white);
+      padding: 16px 36px; border-radius: 4px;
+      font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      text-decoration: none; transition: all .2s;
+    }
+    .btn-secondary:hover { border-color: var(--white); background: rgba(255,255,255,.08); }
+    .hero-image-side {
+      position: absolute; right: 0; top: 0; bottom: 0;
+      width: 50%;
+      background: linear-gradient(to left, rgba(201,61,51,.2), transparent),
+                  url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80') center/cover no-repeat;
+    }
+    .hero-image-side::after {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 200px;
+      background: linear-gradient(to right, #C93D33, transparent);
+    }
+
+    /* ─── STATS ─── */
+    .stats {
+      background: var(--cream); border-bottom: 1px solid var(--border);
+      padding: 40px 80px;
+      display: flex; justify-content: center; gap: 80px;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px; font-weight: 700; color: var(--coral);
+    }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; letter-spacing: .3px; }
+
+    /* ─── SECTION COMMONS ─── */
+    section { padding: 100px 80px; }
+    .section-tag {
+      font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 4vw, 52px); font-weight: 700;
+      line-height: 1.15; color: var(--charcoal);
+    }
+    .section-title em { color: var(--coral); font-style: normal; }
+    .section-sub {
+      font-size: 17px; line-height: 1.7; color: var(--muted);
+      max-width: 560px; margin-top: 16px;
+    }
+    .section-header { margin-bottom: 60px; }
+
+    /* ─── FEATURES ─── */
+    .features { background: var(--white); }
+    .features-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .features-list { display: flex; flex-direction: column; gap: 32px; }
+    .feature-item { display: flex; gap: 20px; align-items: flex-start; }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--teal-light); display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .feature-item h3 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+    .feature-item p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .features-visual {
+      background: var(--teal);
+      border-radius: 20px; overflow: hidden;
+      aspect-ratio: 4/5; position: relative;
+    }
+    .features-visual img { width: 100%; height: 100%; object-fit: cover; opacity: .85; }
+    .features-visual-badge {
+      position: absolute; bottom: 24px; left: 24px; right: 24px;
+      background: rgba(255,255,255,.12); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 12px; padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .badge-dot { width: 10px; height: 10px; background: #4ade80; border-radius: 50%; flex-shrink: 0; }
+    .badge-text { color: var(--white); font-size: 14px; font-weight: 500; }
+
+    /* ─── PROGRAMS ─── */
+    .programs { background: var(--cream); }
+    .programs-inner { max-width: 1200px; margin: 0 auto; }
+    .programs-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    .program-card {
+      border-radius: 16px; overflow: hidden;
+      position: relative; aspect-ratio: 3/4;
+      cursor: pointer; transition: transform .3s;
+    }
+    .program-card:hover { transform: translateY(-6px); }
+    .program-card:hover .program-overlay { opacity: 1; }
+    .program-card-img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .4s;
+    }
+    .program-card:hover .program-card-img { transform: scale(1.05); }
+    .program-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,26,26,.88) 0%, rgba(26,26,26,.15) 50%, transparent 100%);
+    }
+    .program-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 28px;
+    }
+    .program-level {
+      font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 8px;
+    }
+    .program-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700; color: var(--white);
+      line-height: 1.2; margin-bottom: 8px;
+    }
+    .program-meta { font-size: 13px; color: rgba(255,255,255,.65); }
+    .program-overlay {
+      position: absolute; inset: 0;
+      background: rgba(45,74,62,.15);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .3s;
+    }
+    .program-overlay span {
+      background: var(--teal); color: var(--white);
+      padding: 12px 28px; border-radius: 4px;
+      font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    }
+    .program-card.wide { grid-column: span 2; }
+    .program-card.wide .program-card-img { aspect-ratio: unset; }
+    .programs-cta { text-align: center; margin-top: 48px; }
+    .btn-outline {
+      border: 2px solid var(--teal); color: var(--teal);
+      padding: 14px 36px; border-radius: 4px;
+      font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      text-decoration: none; display: inline-block; transition: all .2s;
+    }
+    .btn-outline:hover { background: var(--teal); color: var(--white); }
+
+    /* ─── WALK CLUB ─── */
+    .walk-club {
+      background: var(--teal);
+      position: relative; overflow: hidden;
+    }
+    .walk-club::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 20% 50%, rgba(245,166,35,.15) 0%, transparent 60%),
+                        radial-gradient(circle at 80% 20%, rgba(255,255,255,.06) 0%, transparent 50%);
+    }
+    .walk-club-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+      position: relative; z-index: 2;
+    }
+    .walk-club .section-title { color: var(--white); }
+    .walk-club .section-sub { color: rgba(255,255,255,.65); }
+    .walk-club .section-tag { color: var(--amber); }
+    .walk-features { display: flex; flex-direction: column; gap: 20px; margin: 36px 0; }
+    .walk-feature {
+      display: flex; gap: 16px; align-items: center;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px; padding: 16px 20px;
+    }
+    .walk-feature-icon { font-size: 24px; }
+    .walk-feature-text h4 { color: var(--white); font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+    .walk-feature-text p { color: rgba(255,255,255,.55); font-size: 13px; }
+    .walk-price {
+      display: inline-flex; align-items: baseline; gap: 4px;
+      margin-bottom: 28px;
+    }
+    .walk-price-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 56px; font-weight: 700; color: var(--amber);
+    }
+    .walk-price-period { color: rgba(255,255,255,.6); font-size: 16px; }
+    .walk-visual {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 24px; padding: 32px;
+    }
+    .walk-card-title {
+      color: var(--white); font-family: 'Playfair Display', serif;
+      font-size: 20px; font-weight: 600; margin-bottom: 24px;
+    }
+    /* Leaderboard preview */
+    .leaderboard-preview { display: flex; flex-direction: column; gap: 12px; }
+    .lb-row {
+      display: flex; align-items: center; gap: 16px;
+      background: rgba(255,255,255,.05); border-radius: 10px; padding: 12px 16px;
+    }
+    .lb-rank {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+    }
+    .lb-rank.gold { background: #C8963E; color: #fff; }
+    .lb-rank.silver { background: #9CA3AF; color: #fff; }
+    .lb-rank.bronze { background: #92400E; color: #fff; }
+    .lb-rank.other { background: rgba(255,255,255,.1); color: rgba(255,255,255,.6); }
+    .lb-name { flex: 1; color: var(--white); font-size: 14px; font-weight: 500; }
+    .lb-steps { color: var(--amber); font-size: 14px; font-weight: 600; }
+    .lb-bar-wrap {
+      width: 100%; background: rgba(255,255,255,.1); border-radius: 4px; height: 4px; margin-top: 6px;
+    }
+    .lb-bar { height: 4px; background: linear-gradient(to right, var(--amber), #f7c05a); border-radius: 4px; }
+    /* Step counter */
+    .step-counter {
+      margin-top: 24px;
+      background: rgba(245,166,35,.12); border: 1px solid rgba(245,166,35,.3);
+      border-radius: 14px; padding: 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .sc-label { color: rgba(255,255,255,.6); font-size: 13px; }
+    .sc-value { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--white); }
+    .sc-btn {
+      background: var(--amber); color: var(--white); border: none;
+      padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: all .2s; letter-spacing: .5px;
+    }
+    .sc-btn:hover { background: var(--amber-dark); }
+    .sc-btn.stop { background: rgba(239,68,68,.8); }
+
+    /* ─── MEMBERSHIP ─── */
+    .membership { background: var(--white); }
+    .membership-inner { max-width: 1200px; margin: 0 auto; }
+    .membership .section-header { text-align: center; }
+    .membership .section-sub { margin: 16px auto 0; }
+    .pricing-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      max-width: 780px; margin: 0 auto;
+    }
+    .pricing-card {
+      border: 2px solid var(--border); border-radius: 20px;
+      padding: 40px 36px; position: relative; transition: all .3s;
+    }
+    .pricing-card:hover { border-color: var(--coral); transform: translateY(-4px); box-shadow: 0 20px 48px rgba(255,99,87,.12); }
+    .pricing-card.featured {
+      border-color: var(--coral); background: var(--coral);
+    }
+    .pricing-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--amber); color: var(--white);
+      padding: 4px 16px; border-radius: 100px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .pricing-period {
+      font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 16px;
+    }
+    .pricing-card.featured .pricing-period { color: rgba(255,255,255,.6); }
+    .pricing-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px; font-weight: 700; color: var(--charcoal);
+      line-height: 1;
+    }
+    .pricing-card.featured .pricing-amount { color: var(--white); }
+    .pricing-cadence { font-size: 14px; color: var(--muted); margin: 8px 0 24px; }
+    .pricing-card.featured .pricing-cadence { color: rgba(255,255,255,.6); }
+    .pricing-perks { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+    .pricing-perks li {
+      display: flex; gap: 10px; align-items: center;
+      font-size: 14px; color: var(--charcoal);
+    }
+    .pricing-card.featured .pricing-perks li { color: rgba(255,255,255,.8); }
+    .pricing-perks li::before { content: '✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
+    .pricing-card.featured .pricing-perks li::before { color: var(--amber); }
+    .btn-pricing {
+      width: 100%; display: block; text-align: center;
+      background: var(--teal); color: var(--white);
+      padding: 14px; border-radius: 8px;
+      font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      text-decoration: none; transition: all .2s;
+    }
+    .btn-pricing:hover { background: var(--teal-dark); }
+    .pricing-card.featured .btn-pricing { background: var(--amber); }
+    .pricing-card.featured .btn-pricing:hover { background: var(--amber-dark); }
+
+    /* ─── TRANSFORMATIONS ─── */
+    .transformations { background: var(--cream); }
+    .transformations-inner { max-width: 1200px; margin: 0 auto; }
+    .transformations .section-header { text-align: center; }
+    .transformations .section-sub { margin: 16px auto 0; text-align: center; }
+    .stars { color: var(--amber); font-size: 18px; letter-spacing: 2px; margin-bottom: 8px; }
+    .rating-label { font-size: 14px; color: var(--muted); margin-bottom: 60px; text-align: center; }
+    .results-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      margin-bottom: 48px;
+    }
+    .result-card {
+      border-radius: 16px; overflow: hidden; position: relative;
+      aspect-ratio: 3/4; background: var(--border);
+    }
+    .result-card img { width: 100%; height: 100%; object-fit: cover; }
+    .result-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,46,38,.8) 0%, transparent 50%);
+      opacity: 0; transition: opacity .3s;
+      display: flex; align-items: flex-end; padding: 20px;
+    }
+    .result-card:hover .result-overlay { opacity: 1; }
+    .result-quote { color: var(--white); font-size: 14px; line-height: 1.5; font-style: italic; }
+    .transformations-cta { text-align: center; }
+
+    /* ─── NUTRITION ─── */
+    .nutrition { background: var(--white); }
+    .nutrition-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .nutrition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .nutrition-card {
+      border-radius: 16px; overflow: hidden; aspect-ratio: 1;
+      position: relative; background: var(--border);
+    }
+    .nutrition-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
+    .nutrition-card:hover img { transform: scale(1.06); }
+    .nutrition-card-label {
+      position: absolute; bottom: 12px; left: 12px; right: 12px;
+      background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
+      border-radius: 8px; padding: 8px 12px;
+      font-size: 12px; font-weight: 600; color: var(--charcoal);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--charcoal); color: rgba(255,255,255,.7);
+      padding: 80px;
+    }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px;
+      padding-bottom: 60px; border-bottom: 1px solid rgba(255,255,255,.1);
+      margin-bottom: 40px;
+    }
+    .footer-brand .nav-logo { display: block; margin-bottom: 16px; font-size: 28px; }
+    .footer-desc { font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+    .footer-social { display: flex; gap: 12px; }
+    .social-link {
+      width: 38px; height: 38px; border-radius: 8px;
+      background: rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 16px; transition: background .2s;
+    }
+    .social-link:hover { background: var(--coral); }
+    .footer-col h4 { color: var(--white); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { color: rgba(255,255,255,.6); text-decoration: none; font-size: 14px; transition: color .2s; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 13px; color: rgba(255,255,255,.35);
+    }
+
+    /* ─── ANNOUNCEMENT BAR ─── */
+    .announcement {
+      background: var(--teal); color: var(--white);
+      text-align: center; padding: 10px;
+      font-size: 13px; font-weight: 500; letter-spacing: .3px;
+    }
+    .announcement a { color: var(--amber); text-decoration: none; font-weight: 700; margin-left: 8px; }
+
+    /* ─── UTILS ─── */
+    .center { text-align: center; }
+    .mt-40 { margin-top: 40px; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      section { padding: 64px 24px; }
+      .stats { padding: 32px 24px; gap: 40px; }
+      .hero-content { padding: 0 24px; }
+      .hero-image-side { display: none; }
+      .features-inner, .walk-club-inner, .nutrition-inner { grid-template-columns: 1fr; gap: 48px; }
+      .programs-grid { grid-template-columns: 1fr 1fr; }
+      .program-card.wide { grid-column: span 1; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement">
+  New Stride Club challenge launching soon — <a href="#walk-club">Join the waitlist →</a>
+</div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#" class="nav-logo">Better<span>Body</span></a>
+  <ul class="nav-links">
+    <li><a href="betterbody-membership.html">Memberships</a></li>
+    <li><a href="betterbody-programs.html">Programs</a></li>
+    <li><a href="betterbody-stride-club.html">Stride Club</a></li>
+    <li><a href="#nutrition">Nutrition</a></li>
+    <li><a href="#">Merchandise</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#" class="btn-ghost">Log In</a>
+    <a href="#membership" class="btn-join">Join Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-tag">New Programs Available</div>
+    <h1>Move Better.<br /><em>Live Better.</em></h1>
+    <p>Move. Nourish. Thrive. Structured programs, science-backed nutrition, and a community that moves with you — everything designed to fit your life.</p>
+    <div class="hero-ctas">
+      <a href="#membership" class="btn-primary">Start Your Journey →</a>
+      <a href="#programs" class="btn-secondary">View Programs</a>
+    </div>
+  </div>
+  <div class="hero-image-side"></div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">10,000+</div>
+    <div class="stat-label">Members transformed</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">50+</div>
+    <div class="stat-label">Structured programs</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">1,200+</div>
+    <div class="stat-label">Dietitian-guided recipes</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">4.9★</div>
+    <div class="stat-label">Average member rating</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-inner">
+    <div>
+      <div class="section-tag">Everything In One Place</div>
+      <h2 class="section-title">Train better.<br /><em>Eat better.</em><br />Stay consistent.</h2>
+      <p class="section-sub">Workouts, meal guidance, recipes, and progress tracking — designed to build a routine that actually fits your life.</p>
+      <div class="features-list" style="margin-top: 40px;">
+        <div class="feature-item">
+          <div class="feature-icon">🏋️</div>
+          <div>
+            <h3>Structured Fitness Programs</h3>
+            <p>Follow gym & at-home programs designed for progressive strength and confidence — beginner to advanced.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🥗</div>
+          <div>
+            <h3>Dietitian-Guided Nutrition</h3>
+            <p>Evidence-based meal plans and 1,200+ recipes created by a certified dietitian. Practical, balanced, sustainable.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📈</div>
+          <div>
+            <h3>Progress Tracking Built In</h3>
+            <p>Track steps, water, sleep, and habits daily. Watch your consistency build into real, lasting results.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🚶‍♀️</div>
+          <div>
+            <h3>Virtual Stride Club</h3>
+            <p>Join a growing community of walkers. Track steps, compete on the leaderboard, and stay accountable together.</p>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 40px;">
+        <a href="#membership" class="btn-primary" style="display:inline-flex;">Get Started →</a>
+      </div>
+    </div>
+    <div class="features-visual">
+      <img src="https://images.unsplash.com/photo-1518310952931-b1de897abd40?w=600&q=80" alt="BetterBody app" />
+      <div class="features-visual-badge">
+        <div class="badge-dot"></div>
+        <div class="badge-text">847 members active right now</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="programs" id="programs">
+  <div class="programs-inner">
+    <div class="section-header">
+      <div class="section-tag">Find Your Fit</div>
+      <h2 class="section-title">Body-<em>Changing</em> Programs</h2>
+      <p class="section-sub">Expertly designed workout programs tailored to your goals. Strength, cardio, or total transformation — there's a program for every body.</p>
+    </div>
+    <div class="programs-grid">
+      <div class="program-card wide">
+        <img class="program-card-img" src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=900&q=80" alt="Strong Body Program" style="height:100%;min-height:320px;" />
+        <div class="program-gradient"></div>
+        <div class="program-info">
+          <div class="program-level">Featured · 12 Weeks</div>
+          <div class="program-name">Strong Body Reset</div>
+          <div class="program-meta">Full body · Gym & home options · All levels</div>
+        </div>
+        <div class="program-overlay"><span>View Program</span></div>
+      </div>
+      <div class="program-card">
+        <img class="program-card-img" src="https://images.unsplash.com/photo-1554284126-aa88f22d8b74?w=600&q=80" alt="Sculpt & Tone" />
+        <div class="program-gradient"></div>
+        <div class="program-info">
+          <div class="program-level">8 Weeks</div>
+          <div class="program-name">Sculpt & Tone</div>
+          <div class="program-meta">Gym · Intermediate</div>
+        </div>
+        <div class="program-overlay"><span>View Program</span></div>
+      </div>
+      <div class="program-card">
+        <img class="program-card-img" src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80" alt="Home Glow Up" />
+        <div class="program-gradient"></div>
+        <div class="program-info">
+          <div class="program-level">6 Weeks</div>
+          <div class="program-name">Home Glow Up</div>
+          <div class="program-meta">At home · Beginner</div>
+        </div>
+        <div class="program-overlay"><span>View Program</span></div>
+      </div>
+      <div class="program-card">
+        <img class="program-card-img" src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=600&q=80" alt="Booty Builder" />
+        <div class="program-gradient"></div>
+        <div class="program-info">
+          <div class="program-level">10 Weeks</div>
+          <div class="program-name">Booty Builder</div>
+          <div class="program-meta">Gym · Intermediate</div>
+        </div>
+        <div class="program-overlay"><span>View Program</span></div>
+      </div>
+      <div class="program-card">
+        <img class="program-card-img" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80" alt="On The Move" />
+        <div class="program-gradient"></div>
+        <div class="program-info">
+          <div class="program-level">4 Weeks</div>
+          <div class="program-name">On The Move</div>
+          <div class="program-meta">Travel · Any level</div>
+        </div>
+        <div class="program-overlay"><span>View Program</span></div>
+      </div>
+    </div>
+    <div class="programs-cta">
+      <a href="#" class="btn-outline">View All Programs</a>
+    </div>
+  </div>
+</section>
+
+<!-- WALK CLUB -->
+<section class="walk-club" id="walk-club">
+  <div class="walk-club-inner">
+    <div>
+      <div class="section-tag">Exclusive Feature</div>
+      <h2 class="section-title" style="color:#fff;">Join the<br /><em style="color:var(--amber);">Stride Club</em></h2>
+      <p class="section-sub">A subscription community built around movement. Walk at your own pace, track your steps, climb the leaderboard, and stay accountable — together.</p>
+      <div class="walk-features">
+        <div class="walk-feature">
+          <div class="walk-feature-icon">👟</div>
+          <div class="walk-feature-text">
+            <h4>Automatic Step Tracking</h4>
+            <p>Start your walk counter and your steps sync directly to the leaderboard</p>
+          </div>
+        </div>
+        <div class="walk-feature">
+          <div class="walk-feature-icon">🏆</div>
+          <div class="walk-feature-text">
+            <h4>Live Leaderboard</h4>
+            <p>Compete with members globally — weekly resets keep it fresh and motivating</p>
+          </div>
+        </div>
+        <div class="walk-feature">
+          <div class="walk-feature-icon">📓</div>
+          <div class="walk-feature-text">
+            <h4>Monthly Workbook</h4>
+            <p>Exclusive guided workbook to support your walk habit and mindset</p>
+          </div>
+        </div>
+      </div>
+      <div class="walk-price">
+        <div class="walk-price-amount">$5</div>
+        <div class="walk-price-period">/ month</div>
+      </div>
+      <a href="#membership" class="btn-primary">Join Stride Club →</a>
+    </div>
+    <div class="walk-visual">
+      <div class="walk-card-title">🏆 This Week's Leaderboard</div>
+      <div class="leaderboard-preview">
+        <div class="lb-row">
+          <div class="lb-rank gold">1</div>
+          <div>
+            <div class="lb-name">Sarah M.</div>
+            <div class="lb-bar-wrap"><div class="lb-bar" style="width:100%"></div></div>
+          </div>
+          <div class="lb-steps">84,210 steps</div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-rank silver">2</div>
+          <div>
+            <div class="lb-name">Kezia T.</div>
+            <div class="lb-bar-wrap"><div class="lb-bar" style="width:88%"></div></div>
+          </div>
+          <div class="lb-steps">74,550 steps</div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-rank bronze">3</div>
+          <div>
+            <div class="lb-name">Monique R.</div>
+            <div class="lb-bar-wrap"><div class="lb-bar" style="width:72%"></div></div>
+          </div>
+          <div class="lb-steps">60,380 steps</div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-rank other">4</div>
+          <div>
+            <div class="lb-name">Danielle P.</div>
+            <div class="lb-bar-wrap"><div class="lb-bar" style="width:61%;opacity:.7"></div></div>
+          </div>
+          <div class="lb-steps">51,200 steps</div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-rank other">5</div>
+          <div>
+            <div class="lb-name">You</div>
+            <div class="lb-bar-wrap"><div class="lb-bar" style="width:45%;opacity:.7"></div></div>
+          </div>
+          <div class="lb-steps">38,740 steps</div>
+        </div>
+      </div>
+      <div class="step-counter" id="step-counter">
+        <div>
+          <div class="sc-label">TODAY'S STEPS</div>
+          <div class="sc-value" id="step-display">0</div>
+        </div>
+        <button class="sc-btn" id="walk-btn" onclick="toggleWalk()">▶ Start Walk</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERSHIP PRICING -->
+<section class="membership" id="membership">
+  <div class="membership-inner">
+    <div class="section-header">
+      <div class="section-tag">Choose Your Plan</div>
+      <h2 class="section-title center">Start Your <em>BetterBody</em> Journey</h2>
+      <p class="section-sub center" style="margin:16px auto 0;">Access the full platform — structured programs, challenges, nutrition, and the Stride Club. Everything built to work together.</p>
+    </div>
+    <div class="pricing-grid" style="margin-top:60px;">
+      <div class="pricing-card featured">
+        <div class="pricing-badge">🔥 Best Value — 2 Months Free</div>
+        <div class="pricing-period">Annual Membership</div>
+        <div class="pricing-amount">$199</div>
+        <div class="pricing-cadence">per year · auto-renews · cancel anytime</div>
+        <ul class="pricing-perks">
+          <li>All workout programs & challenges</li>
+          <li>Full nutrition library (1,200+ recipes)</li>
+          <li>Progress tracking dashboard</li>
+          <li>Stride Club access included</li>
+          <li>New content added monthly</li>
+          <li>Priority member support</li>
+        </ul>
+        <a href="#" class="btn-pricing">Get Annual Plan</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-period">Monthly Membership</div>
+        <div class="pricing-amount">$19.99</div>
+        <div class="pricing-cadence">per month · auto-renews · cancel anytime</div>
+        <ul class="pricing-perks">
+          <li>All workout programs & challenges</li>
+          <li>Full nutrition library (1,200+ recipes)</li>
+          <li>Progress tracking dashboard</li>
+          <li>Stride Club add-on available</li>
+          <li>New content added monthly</li>
+        </ul>
+        <a href="#" class="btn-pricing">Get Monthly Plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSFORMATIONS -->
+<section class="transformations" id="transformations">
+  <div class="transformations-inner">
+    <div class="section-header">
+      <div class="section-tag">Real Members. Real Results.</div>
+      <h2 class="section-title center">When it all works together,<br /><em>progress becomes inevitable.</em></h2>
+    </div>
+    <div class="stars center">★★★★★</div>
+    <div class="rating-label">4.9 stars from 1,000+ BetterBody members</div>
+    <div class="results-grid">
+      <div class="result-card">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80" alt="Member result" />
+        <div class="result-overlay"><div class="result-quote">"Lost 18lbs in 12 weeks. I finally feel like myself again." — Aisha K.</div></div>
+      </div>
+      <div class="result-card">
+        <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80" alt="Member result" />
+        <div class="result-overlay"><div class="result-quote">"The Stride Club kept me consistent even on low motivation days." — Shanel T.</div></div>
+      </div>
+      <div class="result-card">
+        <img src="https://images.unsplash.com/photo-1521310192545-4ac7951413f0?w=400&q=80" alt="Member result" />
+        <div class="result-overlay"><div class="result-quote">"Strongest I've ever been. The programs actually work." — Monique L.</div></div>
+      </div>
+      <div class="result-card">
+        <img src="https://images.unsplash.com/photo-1546961342-ea5f62d8e290?w=400&q=80" alt="Member result" />
+        <div class="result-overlay"><div class="result-quote">"Nutrition guidance changed my relationship with food completely." — Jade R.</div></div>
+      </div>
+      <div class="result-card">
+        <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400&q=80" alt="Member result" />
+        <div class="result-overlay"><div class="result-quote">"I never stuck to anything before. BetterBody changed that." — Chanel B.</div></div>
+      </div>
+      <div class="result-card">
+        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80" alt="Member result" />
+        <div class="result-overlay"><div class="result-quote">"Down 2 dress sizes. The community keeps you going." — Bianca M.</div></div>
+      </div>
+    </div>
+    <div class="transformations-cta">
+      <a href="#membership" class="btn-primary">Join Them →</a>
+    </div>
+  </div>
+</section>
+
+<!-- NUTRITION -->
+<section class="nutrition" id="nutrition">
+  <div class="nutrition-inner">
+    <div>
+      <div class="section-tag">Meal Sneak Peek</div>
+      <h2 class="section-title">Simple. Nourishing.<br /><em>Actually delicious.</em></h2>
+      <p class="section-sub">Recipes designed to support your training and fit into real life. Balanced meals guided by a certified dietitian — without restriction or complexity.</p>
+      <div style="margin-top:32px; display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex;gap:10px;align-items:center;font-size:15px;color:var(--muted);">
+          <span style="color:var(--forest);font-weight:700;">✓</span> 1,200+ dietitian-created recipes
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:15px;color:var(--muted);">
+          <span style="color:var(--forest);font-weight:700;">✓</span> Macro-balanced meal plans
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:15px;color:var(--muted);">
+          <span style="color:var(--forest);font-weight:700;">✓</span> New recipes added every month
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:15px;color:var(--muted);">
+          <span style="color:var(--forest);font-weight:700;">✓</span> Grocery lists generated automatically
+        </div>
+      </div>
+      <div style="margin-top:40px;">
+        <a href="#membership" class="btn-primary">Access Nutrition →</a>
+      </div>
+    </div>
+    <div class="nutrition-grid">
+      <div class="nutrition-card">
+        <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80" alt="Healthy bowl" />
+        <div class="nutrition-card-label">Teriyaki Salmon Bowl</div>
+      </div>
+      <div class="nutrition-card">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80" alt="Salad" />
+        <div class="nutrition-card-label">Mediterranean Salad</div>
+      </div>
+      <div class="nutrition-card">
+        <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80" alt="Pancakes" />
+        <div class="nutrition-card-label">Protein Pancakes</div>
+      </div>
+      <div class="nutrition-card">
+        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80" alt="Overnight oats" />
+        <div class="nutrition-card-label">Overnight Oats</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">Better<span>Body</span></a>
+        <p class="footer-desc">Move. Nourish. Thrive.<br />The complete fitness and wellness platform built by Judith, founder of BetterBody.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link">📸</a>
+          <a href="#" class="social-link">🎵</a>
+          <a href="#" class="social-link">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="#">Memberships</a></li>
+          <li><a href="#">Programs</a></li>
+          <li><a href="#">Challenges</a></li>
+          <li><a href="#">Stride Club</a></li>
+          <li><a href="#">Nutrition</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="#">Transformations</a></li>
+          <li><a href="#">Leaderboard</a></li>
+          <li><a href="#">Member Stories</a></li>
+          <li><a href="#">About Judith (Founder)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 BetterBody. All rights reserved.</span>
+      <span>Mon – Fri · 9am – 5pm · support@betterbody.com</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Stride Club step counter demo
+  let walking = false;
+  let steps = 0;
+  let interval = null;
+
+  function toggleWalk() {
+    const btn = document.getElementById('walk-btn');
+    if (!walking) {
+      walking = true;
+      btn.textContent = '⏹ Stop Walk';
+      btn.classList.add('stop');
+      // Simulate step counting
+      interval = setInterval(() => {
+        steps += Math.floor(Math.random() * 3) + 1;
+        document.getElementById('step-display').textContent = steps.toLocaleString();
+      }, 200);
+    } else {
+      walking = false;
+      clearInterval(interval);
+      btn.textContent = '▶ Start Walk';
+      btn.classList.remove('stop');
+    }
+  }
+</script>
+
+</body>
+</html>
