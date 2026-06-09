@@ -2,7 +2,7 @@
 const nextConfig = {
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
-  transpilePackages: ['lenis', 'framer-motion'],
+  transpilePackages: ['lenis'],
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
