@@ -2,5 +2,12 @@
   "framework": "nextjs",
   "installCommand": "npm install --legacy-peer-deps",
   "buildCommand": "npm run build",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://czavsgwbztiuebbjjtqs.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6YXZzZ3dienRpdWViYmpqdHFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1OTMyNjcsImV4cCI6MjA5NjE2OTI2N30.S-IXIOYmmZPWvDRmsvnZMbjgJfcf5Z5q_csewmxBW34",
+    "SUPABASE_SERVICE_ROLE_KEY": "REPLACE_WITH_SUPABASE_SERVICE_ROLE_KEY",
+    "RESEND_API_KEY": "REPLACE_WITH_RESEND_API_KEY",
+    "NEXT_PUBLIC_APP_URL": "https://betterbod.vercel.app"
+  }
 }
