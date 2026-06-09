@@ -23,7 +23,7 @@
     "gsap": "^3.12.5",
     "@gsap/react": "^2.1.1",
     "lenis": "^1.1.9",
-    "framer-motion": "^11.3.8",
+    "framer-motion": "10.18.0",
     "resend": "^3.4.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.4.0",
