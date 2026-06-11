@@ -1,66 +1,65 @@
-// app/admin/users/page.tsx
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/utils/supabase/server'
 
-export default async function AdminUsers() {
-  const cookieStore = cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-  )
-  const { data: users } = await supabase
+export const metadata: Metadata = { title: 'Users — Admin — BetterBod' }
+
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? '').split(',').map((e) => e.trim())
+
+export default async function AdminUsersPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user || !ADMIN_EMAILS.includes(user.email!)) redirect('/')
+
+  const { data: profiles } = await supabase
     .from('profiles')
-    .select('id,full_name,email,role,created_at,subscriptions(plan_type,status)')
+    .select('id, name, created_at')
     .order('created_at', { ascending: false })
     .limit(100)
 
-  const roleColor: Record<string, string> = {
-    admin:  'bg-red-100 text-red-700',
-    member: 'bg-blue-100 text-blue-700',
-    user:   'bg-gray-100 text-gray-500',
-  }
-
   return (
-    <div className="space-y-4">
-      <p className="text-sm text-gray-500">{users?.length ?? 0} users</p>
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-500 text-xs uppercase">
-              <tr>
-                <th className="px-5 py-3 text-left">Name</th>
-                <th className="px-5 py-3 text-left">Email</th>
-                <th className="px-5 py-3 text-left">Role</th>
-                <th className="px-5 py-3 text-left">Subscription</th>
-                <th className="px-5 py-3 text-left">Joined</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {(users ?? []).length === 0
-                ? <tr><td colSpan={5} className="px-5 py-10 text-center text-gray-400">No users yet</td></tr>
-                : (users ?? []).map((u: any) => {
-                    const activeSub = u.subscriptions?.find((s: any) => s.status === 'active')
-                    return (
-                      <tr key={u.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-5 py-3 font-medium text-[#1a1a2e]">{u.full_name ?? '—'}</td>
-                        <td className="px-5 py-3 text-gray-500">{u.email}</td>
-                        <td className="px-5 py-3">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${roleColor[u.role] ?? 'bg-gray-100 text-gray-500'}`}>{u.role ?? 'user'}</span>
-                        </td>
-                        <td className="px-5 py-3">
-                          {activeSub
-                            ? <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">{activeSub.plan_type}</span>
-                            : <span className="text-gray-400 text-xs">none</span>}
-                        </td>
-                        <td className="px-5 py-3 text-gray-400 text-xs">{new Date(u.created_at).toLocaleDateString()}</td>
-                      </tr>
-                    )
-                  })}
-            </tbody>
-          </table>
+    <main className="bg-[#0d0d0d] min-h-screen">
+      <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex items-center gap-4 mb-10">
+          <Link href="/admin" className="text-white/30 hover:text-white text-sm transition-colors">← Admin</Link>
+          <span className="text-white/20">/</span>
+          <span className="text-white/60 text-sm">Users</span>
         </div>
-      </div>
-    </div>
+
+        <h1 className="text-3xl font-black text-white mb-8">Users</h1>
+
+        <div className="bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="text-left text-white/40 text-xs font-semibold uppercase tracking-wider px-6 py-4">Name</th>
+                  <th className="text-left text-white/40 text-xs font-semibold uppercase tracking-wider px-6 py-4">User ID</th>
+                  <th className="text-left text-white/40 text-xs font-semibold uppercase tracking-wider px-6 py-4">Joined</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {profiles?.map((p) => (
+                  <tr key={p.id} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="px-6 py-4 text-white text-sm">{p.name ?? '—'}</td>
+                    <td className="px-6 py-4 text-white/30 text-xs font-mono">{p.id}</td>
+                    <td className="px-6 py-4 text-white/40 text-sm">
+                      {new Date(p.created_at).toLocaleDateString('en-TT', { dateStyle: 'medium' })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {!profiles?.length && (
+            <div className="py-16 text-center">
+              <p className="text-white/30">No users yet</p>
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
   )
 }
