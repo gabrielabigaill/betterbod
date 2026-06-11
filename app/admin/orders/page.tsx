@@ -1,63 +1,81 @@
-// app/admin/orders/page.tsx
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/utils/supabase/server'
 
-export default async function AdminOrders() {
-  const cookieStore = cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-  )
+export const metadata: Metadata = { title: 'Orders — Admin — BetterBod' }
+
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? '').split(',').map((e) => e.trim())
+
+export default async function AdminOrdersPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user || !ADMIN_EMAILS.includes(user.email!)) redirect('/')
+
   const { data: orders } = await supabase
     .from('orders')
-    .select('id,created_at,status,total_usd,currency,profiles(full_name,email)')
+    .select('id, plan_type, status, total, created_at, paid_at, wipay_transaction_id, profiles(name)')
     .order('created_at', { ascending: false })
     .limit(100)
 
-  const statusColor: Record<string, string> = {
-    completed: 'bg-green-100 text-green-700',
-    pending:   'bg-amber-100 text-amber-700',
-    refunded:  'bg-red-100 text-red-700',
-    failed:    'bg-gray-100 text-gray-500',
-  }
-
   return (
-    <div className="space-y-4">
-      <p className="text-sm text-gray-500">{orders?.length ?? 0} orders total</p>
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-500 text-xs uppercase">
-              <tr>
-                <th className="px-5 py-3 text-left">Order ID</th>
-                <th className="px-5 py-3 text-left">Customer</th>
-                <th className="px-5 py-3 text-left">Date</th>
-                <th className="px-5 py-3 text-left">Status</th>
-                <th className="px-5 py-3 text-right">Amount (USD)</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {(orders ?? []).length === 0
-                ? <tr><td colSpan={5} className="px-5 py-10 text-center text-gray-400">No orders yet</td></tr>
-                : (orders ?? []).map((o: any) => (
-                  <tr key={o.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-5 py-3 font-mono text-xs text-gray-400">{o.id.slice(0,8)}…</td>
-                    <td className="px-5 py-3">
-                      <div className="font-medium text-[#1a1a2e]">{o.profiles?.full_name ?? '—'}</div>
-                      <div className="text-xs text-gray-400">{o.profiles?.email ?? '—'}</div>
+    <main className="bg-[#0d0d0d] min-h-screen">
+      <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex items-center gap-4 mb-10">
+          <Link href="/admin" className="text-white/30 hover:text-white text-sm transition-colors">← Admin</Link>
+          <span className="text-white/20">/</span>
+          <span className="text-white/60 text-sm">Orders</span>
+        </div>
+
+        <h1 className="text-3xl font-black text-white mb-8">Orders</h1>
+
+        <div className="bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="text-left text-white/40 text-xs font-semibold uppercase tracking-wider px-6 py-4">User</th>
+                  <th className="text-left text-white/40 text-xs font-semibold uppercase tracking-wider px-6 py-4">Plan</th>
+                  <th className="text-left text-white/40 text-xs font-semibold uppercase tracking-wider px-6 py-4">Total (TTD)</th>
+                  <th className="text-left text-white/40 text-xs font-semibold uppercase tracking-wider px-6 py-4">Status</th>
+                  <th className="text-left text-white/40 text-xs font-semibold uppercase tracking-wider px-6 py-4">Date</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {orders?.map((o) => (
+                  <tr key={o.id} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="px-6 py-4 text-white text-sm">{(o.profiles as any)?.name ?? '—'}</td>
+                    <td className="px-6 py-4">
+                      <span className="text-white/60 text-sm capitalize">{o.plan_type.replace('_', ' ')}</span>
                     </td>
-                    <td className="px-5 py-3 text-gray-500">{new Date(o.created_at).toLocaleDateString()}</td>
-                    <td className="px-5 py-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColor[o.status] ?? 'bg-gray-100 text-gray-500'}`}>{o.status}</span>
+                    <td className="px-6 py-4 text-white text-sm font-mono">${o.total}</td>
+                    <td className="px-6 py-4">
+                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
+                        o.status === 'active'
+                          ? 'bg-green-500/20 text-green-400'
+                          : o.status === 'pending'
+                          ? 'bg-yellow-500/20 text-yellow-400'
+                          : 'bg-white/10 text-white/30'
+                      }`}>
+                        {o.status}
+                      </span>
                     </td>
-                    <td className="px-5 py-3 text-right font-medium">${(o.total_usd??0).toFixed(2)}</td>
+                    <td className="px-6 py-4 text-white/40 text-sm">
+                      {new Date(o.created_at).toLocaleDateString('en-TT', { dateStyle: 'medium' })}
+                    </td>
                   </tr>
                 ))}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
+          {!orders?.length && (
+            <div className="py-16 text-center">
+              <p className="text-white/30">No orders yet</p>
+            </div>
+          )}
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   )
 }
